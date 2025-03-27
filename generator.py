@@ -5,6 +5,8 @@ Try to fix the symbols and numbers when they are the only one's choosen.
 import random
 import string
 
+random.seed()
+
 def ask_for_answer(trait):
     while True:
         answer = input(f"Do you want {trait}: (Y/N)\nType Here: ").lower()
@@ -15,14 +17,14 @@ def ask_for_answer(trait):
         else:
             print("Error: Enter Proper Answer")
 
-def ask_for_number(trait, length=100):
+def ask_for_number(trait, min_length=12, length=100):
     while True:
         try:
             trait = int(input(f"How many {trait}? (-1 = random number between 0 and {length})\nType Here: "))
         except ValueError and TypeError:
             print("Error: Enter a proper integer")
         if trait == -1:
-            return random.randint(0, length)
+            return random.randint(min_length, length)
         if trait > 0:
             return trait
     
@@ -55,7 +57,7 @@ def generator():
 
     #generates symbols
     if is_symbol:
-        min_symbols = ask_for_number("symbols", length)
+        min_symbols = ask_for_number("symbols", 0, length)
         for _ in range(min_symbols):
             password.append(SYMBOLS[random.randint(0, len(SYMBOLS) - 1)])
     else:
@@ -63,8 +65,8 @@ def generator():
 
     #generates numbers
     if is_number:
-        if not is_letters:
-            min_numbers = ask_for_number("numbers", length - min_symbols)
+        if is_letters:
+            min_numbers = ask_for_number("numbers", 0, length - min_symbols)
             for _ in range(min_numbers):
                 password.append(NUMBERS[random.randint(0, len(NUMBERS) - 1)])
         else:
@@ -78,17 +80,18 @@ def generator():
     if is_letters:
         amount_of_letters = length - min_numbers - min_symbols
 
+        amount_of_uppercase = 0
+        amount_of_lowercase = 0
+
         for _ in range(0, amount_of_letters):
             if is_uppercase:
                 if not is_lowercase:
                     amount_of_uppercase = amount_of_letters
-                    amount_of_lowercase = 0
                 else:
                     amount_of_uppercase = random.randint(0, amount_of_letters)
                     amount_of_lowercase = amount_of_letters - amount_of_uppercase
             else:
                 amount_of_lowercase = amount_of_letters
-                amount_of_uppercase = 0
 
         for _ in range(amount_of_uppercase):
             password.append(UPPER_ALPHABET[random.randint(0, len(UPPER_ALPHABET) - 1)])
