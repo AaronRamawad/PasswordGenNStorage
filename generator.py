@@ -4,6 +4,7 @@ Try to fix the symbols and numbers when they are the only one's choosen.
 
 import random
 import string
+from storage import store
 
 random.seed()
 
@@ -18,6 +19,7 @@ def ask_for_answer(trait):
             print("Error: Enter Proper Answer")
 
 def ask_for_number(trait, min_length=12, length=100):
+    previous_trait = trait
     while True:
         try:
             trait = int(input(f"How many {trait}? (-1 = random number between 0 and {length})\nType Here: "))
@@ -25,8 +27,10 @@ def ask_for_number(trait, min_length=12, length=100):
             print("Error: Enter a proper integer")
         if trait == -1:
             return random.randint(min_length, length)
-        if trait > 0:
+        if trait > 0 and trait < length:
             return trait
+        else:
+            trait = previous_trait
     
 
 
@@ -35,7 +39,7 @@ def generator():
     password = []
 
     #all constant variables that holds the possible characters for the password
-    SYMBOLS = ["!", "@", "#", "$", "%", "^", "&", "*", ",", ".", "?", "~"]
+    SYMBOLS = ["!", "@", "#", "$", "%", "^", "&", "*"]
     NUMBERS = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "0"]
     UPPER_ALPHABET = []
     for char in string.ascii_uppercase:
@@ -110,7 +114,9 @@ def generator():
         random_char = password.pop(random.randint(0, len(password) - 1))
         final_password = final_password + random_char
 
+    print(f"Password: {final_password}")
     return final_password
+    
 
     
     
