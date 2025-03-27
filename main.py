@@ -12,7 +12,8 @@ def main():
             print("Error: Improper Response")
         
     if application_choice == 1:
-        generator()
+        password = generator()
+        print(f"New password: {password}")
     elif application_choice == 2:
         pass
 
