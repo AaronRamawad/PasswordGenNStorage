@@ -105,8 +105,6 @@ def generator():
     else:
         amount_of_letters = 0
 
-    
-    print(password)
     final_password = ""
 
     #generates final password using all the found characters
