@@ -34,6 +34,7 @@ def main():
                     break
                 if confirmation_input.lower() == "n":
                     confirmation = False
+                    break
             
             if confirmation:
                 store(login, password)
